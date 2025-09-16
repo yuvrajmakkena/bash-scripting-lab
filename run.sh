@@ -1,26 +1,62 @@
-#below line is called shebang
-#!/bin/bash
-echo hello world
+#!/usr/bin/env bash
+# Run this from inside your Bash-practice/ directory
 
+# Define list of files
+files=(
+  "00-setup/env-check.sh"
+  "01-variables/quoting.sh"
+  "01-variables/naming-conventions.sh"
+  "02-arguments/positional.sh"
+  "02-arguments/shift-until.sh"
+  "02-arguments/getopts-demo.sh"
+  "03-arrays/indexed.sh"
+  "03-arrays/associative.sh"
+  "04-control-flow/if-then-else.sh"
+  "04-control-flow/case-statement.sh"
+  "04-control-flow/for-loop.sh"
+  "04-control-flow/while-until.sh"
+  "04-control-flow/select-menu.sh"
+  "06-io-redirection/stdin-stdout.sh"
+  "06-io-redirection/redirect-files.sh"
+  "06-io-redirection/here-docs.sh"
+  "06-io-redirection/pipes-chains.sh"
+  "07-string-ops/substring.sh"
+  "07-string-ops/pattern-remove.sh"
+  "07-string-ops/replace.sh"
+  "07-string-ops/length-case.sh"
+  "08-arithmetic/basic-math.sh"
+  "08-arithmetic/bc-float-demo.sh"
+  "09-file-ops/test-conditions.sh"
+  "09-file-ops/find-files.sh"
+  "09-file-ops/permissions.sh"
+  "10-error-handling/exit-codes.sh"
+  "10-error-handling/trap-demo.sh"
+  "11-processes/background-jobs.sh"
+  "11-processes/pid-demo.sh"
+  "11-processes/subshells.sh"
+  "12-debugging/trace-mode.sh"
+  "12-debugging/debug-func.sh"
+  "13-advanced/eval-demo.sh"
+  "13-advanced/indirect-ref.sh"
+  "13-advanced/regex-match.sh"
+  "14-user-interaction/read-input.sh"
+  "14-user-interaction/select-interactive.sh"
+  "15-terminal-output/colors.sh"
+  "15-terminal-output/formatting.sh"
+  "16-external-tools/tool-integration.sh"
+  "17-common-pitfalls/gotchas.sh"
+)
 
-#Check if a command is a shell builtin or an executable in the filesystem
-#Builtins like cd, echo, export are compiled into the shell itself.
-#External commands like ls, grep, awk are separate binaries on disk.
-#You can use type or which command to check if a command is builtin or external
+# Create files with shebang + placeholder
+for f in "${files[@]}"; do
+  dir=$(dirname "$f")
+  mkdir -p "$dir"
+  if [[ ! -f "$f" ]]; then
+    cat > "$f" <<EOF
+#!/usr/bin/env bash
+# $(basename "$f") - TODO: add examples
 
-# yuvi@yuvi Bash-practice % type cd   
-# cd is a shell builtin
-# yuvi@yuvi Bash-practice % which cd  
-# cd: shell built-in command
-# yuvi@yuvi Bash-practice % type ls 
-# ls is /bin/ls
-# yuvi@yuvi Bash-practice % which ls  
-# /bin/ls
-# yuvi@yuvi Bash-practice % file /bin/ls
-# /bin/ls: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64e:Mach-O 64-bit executable arm64e]
-# /bin/ls (for architecture x86_64):      Mach-O 64-bit executable x86_64
-# /bin/ls (for architecture arm64e):      Mach-O 64-bit executable arm64e
-
-#Arguments
-
-#Positional paremeters
+EOF
+  fi
+  chmod +x "$f"
+done
