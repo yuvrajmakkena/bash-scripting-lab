@@ -14,7 +14,7 @@ else
   echo "Bash version: $BASH_VERSION"
 fi
 
-# Print OS information
+
 # Print OS information
 if [[ -f /etc/os-release ]]; then
     . /etc/os-release
@@ -23,4 +23,30 @@ else
     echo "OS: Unknown (no /etc/os-release found)"
 fi
 
-declare -a deps=("awk" "sed" "grep" "bc")
+
+# Dependencies to check, an array of commands is defined, a is not a valid command and will show missing dep
+declare -a deps=("awk" "sed" "grep" "bc" "a")
+
+missing="" # Flag to track missing dependencies
+echo "Checking for required dependencies..."
+
+#Function to check if a command exists
+#dep is a parameter to the function initialized when function is called
+# iterate over each dependency, @ symbol is used to get all elements of array
+# &>/dev/null redirects both stdout and stderr to /dev/null, silencing output
+# command -v checks if command is available in PATH, ! negates the exit status, so if command is not found, the condition is true
+
+for dep in "${deps[@]}"; do
+    if ! command -v "$dep" &>/dev/null; then
+        echo "Missing dep: $dep"
+        missing=1
+    else
+        echo "Found: $dep"
+    fi
+done
+
+# If any dependency is missing, exit with error, -n checks if string is non-empty
+if [[ -n $missing ]]; then
+    echo "Some dependencies are missing"
+    exit 1
+fi
